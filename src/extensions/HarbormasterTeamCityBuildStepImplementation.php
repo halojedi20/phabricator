@@ -59,18 +59,18 @@ final class HarbormasterTeamCityBuildStepImplementation
         ->addHarbormasterPHID($variables['target.phid'])
         ->build();
 
-    $future = id(new HTTPSFuture($uri))
-      ->setMethod($method)
-      ->setHeader('Content-Type', $contentType)
-      ->setData($payload)
-      ->setTimeout(60);
-
     $build_target
         ->newLog($uri, 'http.uri');
 
     $build_target
         ->newLog($uri, 'http.body')
         ->append($payload);
+
+    $future = id(new HTTPSFuture($uri))
+      ->setMethod($method)
+      ->setHeader('Content-Type', $contentType)
+      ->setData($payload)
+      ->setTimeout(60);
 
     $credential_phid = $this->getSetting('credential');
     if ($credential_phid) {
