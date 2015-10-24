@@ -65,6 +65,13 @@ final class HarbormasterTeamCityBuildStepImplementation
       ->setData($payload)
       ->setTimeout(60);
 
+    $build_target
+        ->newLog($uri, 'http.uri');
+
+    $build_target
+        ->newLog($uri, 'http.body')
+        ->append($payload);
+
     $credential_phid = $this->getSetting('credential');
     if ($credential_phid) {
       $key = PassphrasePasswordKey::loadFromPHID(
