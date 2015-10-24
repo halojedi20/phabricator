@@ -3,11 +3,11 @@
 final class TeamCityXmlBuildBuilder {
 
     private $xml;
+    private $root;
 
     function __construct(){
         $this->xml = new DOMDocument('1.0', 'UTF-8');
-        $buildRoot = $this->xml->createElement('build');
-        $this->xml->appendChild($buildRoot);
+        $this->root = $this->xml->createElement('build');
     }
 
     function addBuildId($buildId){
@@ -18,16 +18,14 @@ final class TeamCityXmlBuildBuilder {
 
         $buildIdElement->setAttribute('id', $buildId);
 
-        $this->xml->appendChild($buildIdElement);
+        $this->root->appendChild($buildIdElement);
 
         return $this;
     }
 
     function addBranchName($branchName){
         $this->
-            xml->
-            getElementsByTagName('build')->
-            item(0)->
+            root->
             setAttribute('branchName', $branchName);
 
         return $this;
@@ -45,6 +43,7 @@ final class TeamCityXmlBuildBuilder {
     }
 
     function build(){
+        $this->xml->appendChild($this->root);
         return $this->xml->saveXML();
     }
 
@@ -56,16 +55,16 @@ final class TeamCityXmlBuildBuilder {
         $property->setAttribute('value', $value);
 
         $this->
-            xml->
+            root->
             getElementsByTagName('properties')->
             item(0)->
             appendChild($property);
     }
 
     private function verifyPropertiesExist(){
-        if($this->xml->getElementsByTagName('properties')->length == 0){
+        if($this->root->getElementsByTagName('properties')->length == 0){
             $propertiesElement = $this->xml->createElement('properties');
-            $this->xml->appendChild($propertiesElement);
+            $this->root->appendChild($propertiesElement);
         }
     }
 
