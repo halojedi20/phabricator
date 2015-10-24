@@ -51,14 +51,16 @@ final class HarbormasterTeamCityBuildStepImplementation
       $settings['uri'],
       $variables);
 
-    $method = nonempty(idx($settings, 'method'), 'POST');
-    $contentType = nonempty(idx($settings, 'contentType'), 'application/xml');
+    $method = 'POST';
+    $contentType = 'application/xml';
 
-    $payload = $this->mergeVariables(
-        'vurisprintf',
-        $settings['payload'],
-        $variables
-    );
+    $xmlBuilder = new TeamCityXmlBuildBuilder();
+    $payload = $xmlBuilder
+        ->addBuildId($settings['buildId'])
+        ->addBranchName($variables['buildable.diff'])
+        ->addDiffId($variables['buildable.diff'])
+        ->addHarbormasterPHID($variables['target.phid'])
+        ->build();
 
     $future = id(new HTTPSFuture($uri))
       ->setMethod($method)
@@ -116,23 +118,15 @@ final class HarbormasterTeamCityBuildStepImplementation
         'type' => 'text',
         'required' => true,
       ),
-      'method' => array(
-        'name' => pht('HTTP Method'),
-        'type' => 'select',
-        'options' => array_fuse(array('POST', 'GET', 'PUT', 'DELETE')),
-      ),
-      'payload' => array(
-        'name' => pht('Payload'),
+      'buildId' => array(
+        'name' => pht('TeamCity Build Configuration ID'),
         'type' => 'text',
-      ),
-      'contentType' => array(
-        'name' => pht('Content-Type'),
-        'type' => 'select',
-        'options' => array_fuse(array('application/xml', 'application/json'))
+        'required' => true,
       ),
       'credential' => array(
-          'name' => pht('Credentials'),
+          'name' => pht('TeamCity Credentials'),
           'type' => 'credential',
+          'required' => true,
           'credential.type'
           => PassphrasePasswordCredentialType::CREDENTIAL_TYPE,
           'credential.provides'
