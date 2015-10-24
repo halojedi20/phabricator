@@ -46,10 +46,7 @@ final class HarbormasterTeamCityBuildStepImplementation
     $settings = $this->getSettings();
     $variables = $build_target->getVariables();
 
-    $uri = $this->mergeVariables(
-      'vurisprintf',
-      $settings['uri'],
-      $variables);
+    $uri = $settings['uri'] . '/httpAuth/app/rest/buildQueue';
 
     $method = 'POST';
     $contentType = 'application/xml';
