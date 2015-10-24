@@ -50,7 +50,7 @@ final class HarbormasterTeamCityBuildStepImplementation
 
     $build_target
         ->newLog($uri, 'http.uri');
-    
+
     $method = 'POST';
     $contentType = 'application/xml';
 
