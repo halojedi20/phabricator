@@ -265,7 +265,6 @@ abstract class HarbormasterBuildStepImplementation extends Phobject {
 
   }
 
-
 /* -(  Automatic Targets  )-------------------------------------------------- */
 
 

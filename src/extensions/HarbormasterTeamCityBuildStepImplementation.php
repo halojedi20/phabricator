@@ -48,9 +48,6 @@ final class HarbormasterTeamCityBuildStepImplementation
 
     $uri = $settings['uri'] . '/httpAuth/app/rest/buildQueue';
 
-    $build_target
-        ->newLog($uri, 'http.uri');
-
     $method = 'POST';
     $contentType = 'application/xml';
 
@@ -88,6 +85,10 @@ final class HarbormasterTeamCityBuildStepImplementation
       array($future));
 
     list($status, $body, $headers) = $future->resolve();
+
+    $build_target
+        ->newLog($uri, 'log')
+        ->append('Past future');
 
     $header_lines = array();
 
