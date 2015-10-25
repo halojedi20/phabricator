@@ -80,7 +80,7 @@ final class HarbormasterTeamCityBuildStepImplementation
     }
 
     $build_target
-        ->newLog(uri, 'log')
+        ->newLog($uri, 'log')
         ->append('Credentials Set');
 
     $this->resolveFutures(
@@ -89,7 +89,7 @@ final class HarbormasterTeamCityBuildStepImplementation
       array($future));
 
     $build_target
-        ->newLog(uri, 'log')
+        ->newLog($uri, 'log')
         ->append('Futures Resolved');
 
     list($status, $body, $headers) = $future->resolve();
