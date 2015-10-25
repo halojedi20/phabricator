@@ -84,6 +84,10 @@ final class HarbormasterTeamCityBuildStepImplementation
       $build_target,
       array($future));
 
+    $build_target
+        ->newLog(uri, 'log')
+        ->append('Futures Resolved');
+
     list($status, $body, $headers) = $future->resolve();
 
     $build_target
