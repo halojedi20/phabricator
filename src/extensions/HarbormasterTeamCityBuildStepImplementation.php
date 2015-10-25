@@ -79,6 +79,10 @@ final class HarbormasterTeamCityBuildStepImplementation
         $key->getPasswordEnvelope());
     }
 
+    $build_target
+        ->newLog(uri, 'log')
+        ->append('Credentials Set');
+
     $this->resolveFutures(
       $build,
       $build_target,
