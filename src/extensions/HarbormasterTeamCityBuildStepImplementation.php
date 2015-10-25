@@ -63,10 +63,9 @@ final class HarbormasterTeamCityBuildStepImplementation
         ->newLog($uri, 'http.body')
         ->append($payload);
 
-    $future = id(new HTTPSFuture($uri))
+    $future = id(new HTTPFuture($uri, $payload))
       ->setMethod($method)
       ->setHeader('Content-Type', $contentType)
-      ->setData(array($payload))
       ->setTimeout(60);
 
     $credential_phid = $this->getSetting('credential');
