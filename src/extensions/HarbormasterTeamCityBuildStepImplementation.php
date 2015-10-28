@@ -54,23 +54,15 @@ final class HarbormasterTeamCityBuildStepImplementation
     $xmlBuilder = new TeamCityXmlBuildBuilder();
     $payload = $xmlBuilder
         ->addBuildId($settings['buildId'])
-        ->addBranchName($variables['buildable.diff'])
-        ->addDiffId($variables['buildable.diff'])
+        ->addBranchName("D".$variables['buildable.diff'])
+        ->addDiffId("D".$variables['buildable.diff'])
         ->addHarbormasterPHID($variables['target.phid'])
         ->build();
-
-    $build_target
-        ->newLog($uri, 'http.body')
-        ->append($payload);
 
     $future = id(new HTTPFuture($uri, $payload))
       ->setMethod($method)
       ->addHeader('Content-Type', $contentType)
       ->setTimeout(60);
-
-    $build_target
-        ->newLog($uri, 'http.body gotten')
-        ->append($future->getData());
 
     $credential_phid = $this->getSetting('credential');
     if ($credential_phid) {
@@ -82,24 +74,12 @@ final class HarbormasterTeamCityBuildStepImplementation
         $key->getPasswordEnvelope());
     }
 
-    $build_target
-        ->newLog($uri, 'log')
-        ->append('Credentials Set');
-
     $this->resolveFutures(
       $build,
       $build_target,
       array($future));
 
-    $build_target
-        ->newLog($uri, 'log')
-        ->append('Futures Resolved');
-
     list($status, $body, $headers) = $future->resolve();
-
-    $build_target
-        ->newLog($uri, 'log')
-        ->append('Past future');
 
     $header_lines = array();
 
