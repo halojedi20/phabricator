@@ -23,6 +23,11 @@ final class TeamCityXmlBuildBuilder {
         return $this;
     }
 
+    function addRevisionId($revisionId){
+        $this->addProperty("env.revisionId", $revisionId);
+        return $this;
+    }
+
     function addBranchName($branchName){
         $this->
             root->
