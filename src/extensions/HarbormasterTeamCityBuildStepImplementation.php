@@ -57,6 +57,7 @@ final class HarbormasterTeamCityBuildStepImplementation
         ->addBranchName(implode(array("D", $variables['buildable.diff'])))
         ->addDiffId(implode(array("D", $variables['buildable.diff'])))
         ->addHarbormasterPHID($variables['target.phid'])
+        ->addRevisionId($variables['buildable.revision'])
         ->build();
 
     $future = id(new HTTPFuture($uri, $payload))
